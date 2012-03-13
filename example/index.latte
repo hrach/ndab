@@ -25,7 +25,7 @@
 	<ol>
 		{foreach $books as $book}
 		<li>
-			<strong>{$book->title}</strong> {* using an alias *}
+			<strong>{$book->name}</strong> {* using an alias *}
 
 			<ul n:if="count($book->sortedTags)">
 
