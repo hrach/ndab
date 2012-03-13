@@ -40,7 +40,7 @@ class Entity extends Table\ActiveRow
 
 
 	/**
-	 * Returns array of subItems fetched form related() call
+	 * Returns array of subItems fetched from related() call
 	 * @param  string  "relatedTable:subItem"
 	 * @param  Nette\Callback  callback for additional related call definition
 	 * @return array
