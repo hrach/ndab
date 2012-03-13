@@ -23,10 +23,6 @@ use Nette,
  */
 class Entity extends Table\ActiveRow
 {
-	/** @var array */
-	protected static $subRelations = array();
-
-
 
 	public function & __get($key)
 	{
