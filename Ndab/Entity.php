@@ -42,16 +42,16 @@ class Entity extends Table\ActiveRow
 	/**
 	 * Returns array of subItems fetched from related() call
 	 * @param  string  "relatedTable:subItem"
-	 * @param  Nette\Callback  callback for additional related call definition
+	 * @param  callable  callback for additional related call definition
 	 * @return array
 	 */
-	protected function getSubRelation($selector, Nette\Callback $relatedCallback = NULL)
+	protected function getSubRelation($selector, $relatedCallback = NULL)
 	{
 		list($relatedSelector, $subItemSelector) = explode(':', $selector);
 
 		$related = $this->related($relatedSelector);
 		if ($relatedCallback) {
-			$relatedCallback->invokeArgs(array($related));
+			callback($relatedCallback)->invokeArgs(array($related));
 		}
 
 		$subItems = array();
