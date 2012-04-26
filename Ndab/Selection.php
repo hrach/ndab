@@ -34,9 +34,9 @@ class Selection extends Table\Selection
 	 * @param  Nette\Database\Connection
 	 * @param  Manager
 	 */
-	public function __construct($table, Nette\Database\Connection $connection, Manager $manager)
+	public function __construct(Nette\Database\Connection $connection, $table, Manager $manager)
 	{
-		parent::__construct($table, $connection);
+		parent::__construct($connection, $table);
 		$this->manager = $manager;
 	}
 
@@ -59,46 +59,16 @@ class Selection extends Table\Selection
 
 
 
-	/********************* references *********************/
-
-
-
-	public function getReferencedTable($table, $column, $checkReferenceNewKeys = FALSE)
+	protected function createSelectionInstance($table = NULL)
 	{
-		$referenced = & $this->referenced[$table][$column];
-		if ($referenced === NULL || $checkReferenceNewKeys || $this->checkReferenceNewKeys) {
-			$keys = array();
-			foreach ($this->rows as $row) {
-				if ($row[$column] === NULL)
-					continue;
-
-				$key = $row[$column] instanceof Table\ActiveRow ? $row[$column]->getPrimary() : $row[$column];
-				$keys[$key] = TRUE;
-			}
-
-			if ($referenced !== NULL && $keys === array_keys($this->rows)) {
-				$this->checkReferenceNewKeys = FALSE;
-				return $referenced;
-			}
-
-			if ($keys) {
-				$referenced = new Selection($table, $this->connection, $this->manager);
-				$referenced->where($table . '.' . $referenced->primary, array_keys($keys));
-			} else {
-				$referenced = array();
-			}
-		}
-
-		return $referenced;
+		return new Selection($this->connection, $table ?: $this->table);
 	}
 
 
 
-	public function getReferencingTable($table, $column, $active = NULL)
+	protected function createGroupedSelectionInstance($table, $column, $active)
 	{
-		$referencing = new GroupedSelection($table, $this, $column, $active);
-		$referencing->where("$table.$column", array_keys((array) $this->rows)); // (array) - is NULL after insert
-		return $referencing;
+		return new GroupedSelection($this, $table, $column, $active);
 	}
 
 }

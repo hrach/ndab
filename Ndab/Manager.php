@@ -64,7 +64,7 @@ abstract class Manager extends Nette\Object
 	 */
 	final protected function table()
 	{
-		return new Selection($this->name, $this->connection, $this);
+		return new Selection($this->connection, $this->name, $this);
 	}
 
 }

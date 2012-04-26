@@ -19,7 +19,7 @@ class EntityLoader implements Ndab\IEntityLoader
 
 	public function getEntityClassName(Ndab\Manager $manager, Table\Selection $selection, array $data)
 	{
-		if ($selection->name === 'book') {
+		if ($selection->table === 'book') {
 			return 'BookEntity';
 		}
 	}
