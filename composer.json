@@ -1,0 +1,28 @@
+{
+	"name": "ndab/ndab",
+	"type": "nette-addon",
+	"description": "Ndab",
+	"keywords": ["nette", "database", "orm", "db"],
+	"homepage": "https://github.com/hrach/ndab",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Jan Skrasek",
+			"email": "jan@skrasek.com",
+			"homepage": "http://jan.skrasek.com"
+		}
+	],
+	"autoload": {
+		"psr-0": { "Ndab": "" }
+	},
+	"require": {
+		"php": ">=5.3.2",
+		"nette/nette": "dev-f-database-refactoring"
+	},
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/hrach/nette"
+        }
+    ]
+}
