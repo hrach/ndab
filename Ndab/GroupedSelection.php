@@ -23,6 +23,30 @@ use Nette,
  */
 class GroupedSelection extends Table\GroupedSelection
 {
+	/** @var string */
+	protected $table;
+
+
+
+	/**
+	 * Creates filtered and grouped table representation.
+	 * @param  Selection  $refTable
+	 * @param  string  database table name
+	 * @param  string  joining column
+	 */
+	public function __construct(Selection $refTable, $table, $column)
+	{
+		parent::__construct($refTable, $this->table = $table, $column);
+	}
+
+
+
+	public function getTable()
+	{
+		return $this->table;
+	}
+
+
 
 	protected function createRow(array $row)
 	{
@@ -38,9 +62,9 @@ class GroupedSelection extends Table\GroupedSelection
 
 
 
-	protected function createGroupedSelectionInstance($table, $column, $active)
+	protected function createGroupedSelectionInstance($table, $column)
 	{
-		return new GroupedSelection($this, $table, $column, $active);
+		return new GroupedSelection($this, $table, $column);
 	}
 
 }

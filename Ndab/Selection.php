@@ -26,6 +26,9 @@ class Selection extends Table\Selection
 	/** @var Manager */
 	protected $manager;
 
+	/** @var string */
+	protected $table;
+
 
 
 	/**
@@ -36,7 +39,7 @@ class Selection extends Table\Selection
 	 */
 	public function __construct(Nette\Database\Connection $connection, $table, Manager $manager)
 	{
-		parent::__construct($connection, $table);
+		parent::__construct($connection, $this->table = $table);
 		$this->manager = $manager;
 	}
 
@@ -48,6 +51,13 @@ class Selection extends Table\Selection
 	public function getManager()
 	{
 		return $this->manager;
+	}
+
+
+
+	public function getTable()
+	{
+		return $this->table;
 	}
 
 
@@ -66,9 +76,9 @@ class Selection extends Table\Selection
 
 
 
-	protected function createGroupedSelectionInstance($table, $column, $active)
+	protected function createGroupedSelectionInstance($table, $column)
 	{
-		return new GroupedSelection($this, $table, $column, $active);
+		return new GroupedSelection($this, $table, $column);
 	}
 
 }
