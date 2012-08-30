@@ -23,7 +23,7 @@ use Nette,
  */
 abstract class Manager extends Nette\Object
 {
-	/** @var Nette\Dabase\Connection */
+	/** @var Nette\Database\Connection */
 	protected $connection;
 
 	/** @var string */
@@ -31,6 +31,9 @@ abstract class Manager extends Nette\Object
 
 	/** @var string */
 	protected $rowClass;
+
+	/** @var string */
+	protected $primaryColumn;
 
 
 
@@ -53,6 +56,8 @@ abstract class Manager extends Nette\Object
 		if (empty($this->tableName)) {
 			throw new Nette\InvalidStateException('Undefined tableName property in ' . $this->getReflection()->name);
 		}
+
+		$this->primaryColumn = $this->connection->getDatabaseReflection()->getPrimary($this->tableName);
 	}
 
 
@@ -78,13 +83,51 @@ abstract class Manager extends Nette\Object
 
 
 	/**
-	 * Finds all data
+	 * Returns all rows filtered by $conds
 	 * @param  array  $conds
 	 * @return Selection
 	 */
-	public function findAll($conds = array())
+	public function getAll($conds = array())
 	{
 		return $this->table()->where($conds);
+	}
+
+
+
+	/**
+	 * Returns row identified by $privaryValue
+	 * @param  mixed  $privaryValue
+	 * @return Entity
+	 */
+	public function get($privaryValue)
+	{
+		return $this->table()->get($privaryValue);
+	}
+
+
+
+	/**
+	 * Inserts data into table
+	 * @param  mixed $values
+	 * @return Entity
+	 */
+	public function insert($values)
+	{
+		return $this->table()->insert($values);
+	}
+
+
+
+	/**
+	 * Updates data
+	 * @param  mixed $values
+	 * @return Entity
+	 */
+	public function update($values)
+	{
+		$this->table()->update($values);
+		if (isset($values[$this->primaryColumn]))
+			return $this->get($values[$this->primaryColumn]);
 	}
 
 
