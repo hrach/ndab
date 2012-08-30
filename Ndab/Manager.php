@@ -78,6 +78,18 @@ abstract class Manager extends Nette\Object
 
 
 	/**
+	 * Finds all data
+	 * @param  array  $conds
+	 * @return Selection
+	 */
+	public function findAll($conds = array())
+	{
+		return $this->table()->where($conds);
+	}
+
+
+
+	/**
 	 * Returns table selection.
 	 * @return Selection
 	 */
