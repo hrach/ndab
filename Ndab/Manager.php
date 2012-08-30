@@ -125,9 +125,13 @@ abstract class Manager extends Nette\Object
 	 */
 	public function update($values)
 	{
-		$this->table()->update($values);
-		if (isset($values[$this->primaryColumn]))
-			return $this->get($values[$this->primaryColumn]);
+		if (!isset($values[$this->primaryColumn]))
+			throw new Nette\InvalidArgumentException('Missing privary value');
+
+		$primaryValue = $values[$this->primaryColumn];
+		unset($values[$this->primaryColumn]);
+		$this->table()->where($this->primaryColumn, $primaryValue)->update($values);
+		return $this->get($primaryValue);
 	}
 
 
