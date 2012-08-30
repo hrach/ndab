@@ -1,7 +1,6 @@
 {
 	"name": "ndab/ndab",
-	"type": "nette-addon",
-	"description": "Ndab - ORM builded on Nette\Database.",
+	"description": "Ndab - ORM builded on Nette\\Database.",
 	"keywords": ["nette", "database", "orm", "db"],
 	"homepage": "https://github.com/hrach/ndab",
 	"license": "MIT",
@@ -18,5 +17,5 @@
 	"require": {
 		"php": ">=5.3.2",
 		"nette/nette": "dev-master"
-	},
+	}
 }
