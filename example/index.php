@@ -26,7 +26,7 @@ $container = $configurator->createContainer();
 $template = $container->nette->templateFactory->__invoke();
 $template->setFile(__DIR__ . '/index.latte');
 
-$bookManager = new BookManager($container->nette->database->default, new EntityLoader);
+$bookManager = new BookManager($container->nette->database->default);
 $template->books = $bookManager->getAll();
 
 echo $template->render();

@@ -29,6 +29,9 @@ class Selection extends Table\Selection
 	/** @var string */
 	protected $table;
 
+	/** @var string */
+	protected $rowClass;
+
 
 
 	/**
@@ -58,6 +61,21 @@ class Selection extends Table\Selection
 	public function getTable()
 	{
 		return $this->table;
+	}
+
+
+
+	public function setRowClass($class)
+	{
+		$this->rowClass = $class;
+		return $this;
+	}
+
+
+
+	public function getRowClass()
+	{
+		return $this->rowClass;
 	}
 
 

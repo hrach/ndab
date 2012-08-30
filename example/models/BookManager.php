@@ -14,7 +14,8 @@
 class BookManager extends Ndab\Manager
 {
 
-	protected $name = 'book';
+	protected $tableName = 'book';
+	protected $rowClass  = 'BookEntity';
 
 	public function getAll()
 	{

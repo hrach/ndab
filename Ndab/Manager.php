@@ -26,20 +26,33 @@ abstract class Manager extends Nette\Object
 	/** @var Nette\Dabase\Connection */
 	protected $connection;
 
-	/** @var IEntityLoader */
-	protected $entityLoader;
+	/** @var string */
+	protected $tableName;
+
+	/** @var string */
+	protected $rowClass;
 
 
 
 	/**
 	 * Manager constructor.
 	 * @param  Nette\Database\Connection $connection
-	 * @param  IEntityLoader $loader
+	 * @param  string
+	 * @param  string
 	 */
-	public function __construct(Nette\Database\Connection $connection, IEntityLoader $loader)
+	public function __construct(Nette\Database\Connection $connection, $tableName = NULL, $rowClass = NULL)
 	{
 		$this->connection = $connection;
-		$this->entityLoader = $loader;
+		if ($tableName) {
+			$this->tableName = $tableName;
+		}
+		if ($rowClass) {
+			$this->rowClass = $rowClass;
+		}
+
+		if (empty($this->tableName)) {
+			throw new Nette\InvalidStateException('Undefined tableName property in ' . $this->getReflection()->name);
+		}
 	}
 
 
@@ -52,7 +65,13 @@ abstract class Manager extends Nette\Object
 	 */
 	public function initEntity(array $data, Table\Selection $selection)
 	{
-		$class = $this->entityLoader->getEntityClassName($this, $selection, $data) ?: '\NDab\Entity';
+		$class = $selection->getRowClass();
+		if (!$class) {
+			$class = $this->rowClass;
+		}
+		if (!$class) {
+			 $class = '\Ndab\Entity';
+		}
 		return new $class($data, $selection);
 	}
 
@@ -64,7 +83,7 @@ abstract class Manager extends Nette\Object
 	 */
 	final protected function table()
 	{
-		return new Selection($this->connection, $this->name, $this);
+		return new Selection($this->connection, $this->tableName, $this);
 	}
 
 }

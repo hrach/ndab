@@ -26,6 +26,9 @@ class GroupedSelection extends Table\GroupedSelection
 	/** @var string */
 	protected $table;
 
+	/** @var string */
+	protected $rowClass;
+
 
 
 	/**
@@ -44,6 +47,21 @@ class GroupedSelection extends Table\GroupedSelection
 	public function getTable()
 	{
 		return $this->table;
+	}
+
+
+
+	public function setRowClass($class)
+	{
+		$this->rowClass = $class;
+		return $this;
+	}
+
+
+
+	public function getRowClass()
+	{
+		return $this->rowClass;
 	}
 
 
