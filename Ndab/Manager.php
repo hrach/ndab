@@ -111,9 +111,10 @@ abstract class Manager extends Nette\Object
 	 * @param  mixed $values
 	 * @return Entity
 	 */
-	public function insert($values)
+	public function create($values)
 	{
-		return $this->table()->insert($values);
+		$entity = $this->table()->insert($values);
+		return $this->get($entity[$this->primaryColumn]);
 	}
 
 
@@ -126,7 +127,7 @@ abstract class Manager extends Nette\Object
 	public function update($values)
 	{
 		if (!isset($values[$this->primaryColumn]))
-			throw new Nette\InvalidArgumentException('Missing privary value');
+			throw new Nette\InvalidArgumentException('Missing primary value');
 
 		$primaryValue = $values[$this->primaryColumn];
 		unset($values[$this->primaryColumn]);
