@@ -30,10 +30,10 @@ abstract class Manager extends Nette\Object
 	protected $tableName;
 
 	/** @var string */
-	protected $rowClass;
-
-	/** @var string */
 	protected $primaryColumn;
+
+	/** @var Settings */
+	protected $settings;
 
 
 
@@ -43,14 +43,12 @@ abstract class Manager extends Nette\Object
 	 * @param  string
 	 * @param  string
 	 */
-	public function __construct(Nette\Database\Connection $connection, $tableName = NULL, $rowClass = NULL)
+	public function __construct(Nette\Database\Connection $connection, Settings $settings, $tableName = NULL)
 	{
 		$this->connection = $connection;
+		$this->settings   = $settings;
 		if ($tableName) {
 			$this->tableName = $tableName;
-		}
-		if ($rowClass) {
-			$this->rowClass = $rowClass;
 		}
 
 		if (empty($this->tableName)) {
@@ -71,11 +69,11 @@ abstract class Manager extends Nette\Object
 	public function initEntity(array $data, Table\Selection $selection)
 	{
 		$class = $selection->getRowClass();
-		if (!$class) {
-			$class = $this->rowClass;
+		if (!$class && isset($this->settings->tables->{$selection->getTable()})) {
+			$class = $this->settings->tables->{$selection->getTable()};
 		}
 		if (!$class) {
-			 $class = '\Ndab\Entity';
+			$class = '\Ndab\Entity';
 		}
 		return new $class($data, $selection);
 	}
