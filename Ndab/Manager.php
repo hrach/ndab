@@ -120,7 +120,7 @@ abstract class Manager extends Nette\Object
 
 
 	/**
-	 * Updates data
+	 * Updates entry
 	 * @param  mixed $values
 	 * @return Entity
 	 */
@@ -133,6 +133,23 @@ abstract class Manager extends Nette\Object
 		unset($values[$this->primaryColumn]);
 		$this->table()->where($this->primaryColumn, $primaryValue)->update($values);
 		return $this->get($primaryValue);
+	}
+
+
+
+	/**
+	 * Deletes entry
+	 * @param  Entity|mixed  Entity instance or primary value
+	 * @return book
+	 */
+	public function delete($entity)
+	{
+		if ($entity instanceof Entity)
+			$primaryValue = $entity[$this->primaryColumn];
+		else
+			$primaryValue = $entity;
+
+		return $this->table()->where($this->primaryColumn, $primaryValue)->delete() > 0;
 	}
 
 
