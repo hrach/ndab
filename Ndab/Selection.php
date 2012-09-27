@@ -42,7 +42,7 @@ class Selection extends Table\Selection
 	 */
 	public function __construct(Nette\Database\Connection $connection, $table, Manager $manager)
 	{
-		parent::__construct($connection, $this->table = $table);
+		parent::__construct($this->table = $table, $connection);
 		$this->manager = $manager;
 	}
 
