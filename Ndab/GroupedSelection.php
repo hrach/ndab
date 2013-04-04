@@ -28,6 +28,8 @@ class GroupedSelection extends Table\GroupedSelection
 
 	/** @var string */
 	protected $rowClass;
+	/** @var Manager */
+	protected $manager;
 
 
 
@@ -37,9 +39,10 @@ class GroupedSelection extends Table\GroupedSelection
 	 * @param  string  database table name
 	 * @param  string  joining column
 	 */
-	public function __construct(Selection $refTable, $table, $column)
+	public function __construct(Table\Selection $refTable, $table, $column, Manager $manager)
 	{
 		parent::__construct($refTable, $this->table = $table, $column);
+		$this->manager = $manager;
 	}
 
 
@@ -82,7 +85,7 @@ class GroupedSelection extends Table\GroupedSelection
 
 	protected function createGroupedSelectionInstance($table, $column)
 	{
-		return new GroupedSelection($this, $table, $column);
+		return new GroupedSelection($this, $table, $column, $this->manager);
 	}
 
 }
