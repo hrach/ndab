@@ -96,7 +96,7 @@ class Selection extends Table\Selection
 
 	protected function createGroupedSelectionInstance($table, $column)
 	{
-		return new GroupedSelection($this, $table, $column);
+		return new GroupedSelection($this, $table, $column, $this->manager);
 	}
 
 }
