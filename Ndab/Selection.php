@@ -87,7 +87,7 @@ class Selection extends Table\Selection
 
 
 
-	protected function createSelectionInstance($table = NULL)
+	public function createSelectionInstance($table = NULL)
 	{
 		return new Selection($this->connection, $table ?: $this->table, $this->manager);
 	}

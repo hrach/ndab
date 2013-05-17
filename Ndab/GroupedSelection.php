@@ -76,7 +76,7 @@ class GroupedSelection extends Table\GroupedSelection
 
 
 
-	protected function createSelectionInstance($table = NULL)
+	public function createSelectionInstance($table = NULL)
 	{
 		return new Selection($this->connection, $table ?: $this->table, $this->refTable->manager);
 	}
