@@ -51,7 +51,8 @@ class Entity extends Table\ActiveRow
 
 		$related = $this->related($relatedSelector);
 		if ($relatedCallback) {
-			callback($relatedCallback)->invokeArgs(array($related));
+			$cb = new Nette\Callback($relatedCallback);
+			$cb->invokeArgs(array($related));
 		}
 
 		$subItems = array();

@@ -24,9 +24,9 @@ use Nette,
 abstract class Manager extends Nette\Object
 {
 	/** @var Nette\Database\Connection */
-	protected $connection;
+	protected $context;
 
-	/** @var Nette\Database\Table\IReflection */
+	/** @var Nette\Database\IReflection */
 	protected $databaseReflection;
 
 	/** @var string */
@@ -42,13 +42,13 @@ abstract class Manager extends Nette\Object
 
 	/**
 	 * Manager constructor.
-	 * @param  Nette\Database\Connection $connection
+	 * @param  Nette\Database\Connection $context
 	 * @param  string
 	 * @param  string
 	 */
-	public function __construct(Nette\Database\Connection $connection, Settings $settings, $tableName = NULL)
+	public function __construct(Nette\Database\Context $context, Settings $settings, $tableName = NULL)
 	{
-		$this->connection = $connection;
+		$this->context = $context;
 		$this->settings   = $settings;
 		if ($tableName) {
 			$this->tableName = $tableName;
@@ -58,7 +58,7 @@ abstract class Manager extends Nette\Object
 			throw new Nette\InvalidStateException('Undefined tableName property in ' . $this->getReflection()->name);
 		}
 
-		$this->databaseReflection = $connection->table($this->tableName)->getDatabaseReflection();
+		$this->databaseReflection = $context->getDatabaseReflection();
 		$this->primaryColumn = $this->databaseReflection->getPrimary($this->tableName);
 	}
 
@@ -142,7 +142,7 @@ abstract class Manager extends Nette\Object
 	/**
 	 * Deletes entry
 	 * @param  Entity|mixed  Entity instance or primary value
-	 * @return book
+	 * @return bool
 	 */
 	public function delete($entity)
 	{
@@ -162,13 +162,13 @@ abstract class Manager extends Nette\Object
 	 */
 	final protected function table()
 	{
-		return new Selection($this->connection, $this->tableName, $this);
+		return new Selection($this->context->getConnection(), $this->tableName, $this);
 	}
 
 
 
 	/**
-	 * @return Nette\Database\Table\IReflection
+	 * @return Nette\Database\IReflection
 	 */
 	public function getDatabaseReflection()
 	{

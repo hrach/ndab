@@ -18,17 +18,17 @@ use Nette;
 class ManagersExtension extends Nette\DI\CompilerExtension
 {
 
-    public function loadConfiguration()
-    {
-        $config = $this->getConfig();
-        $builder = $this->getContainerBuilder();
+	public function loadConfiguration()
+	{
+		$config = $this->getConfig();
+		$builder = $this->getContainerBuilder();
 
-        unset($config['services']);
-        isset($config['tables']) ?: $config['tables'] = array();
+		unset($config['services']);
+		isset($config['tables']) ?: $config['tables'] = array();
 
-        $builder->addDefinition($this->prefix('settings'))
-        	->setClass('Ndab\Settings')
-        	->setFactory('Ndab\Settings::from', array($config));
+		$builder->addDefinition($this->prefix('settings'))
+			->setClass('Ndab\Settings')
+			->setFactory('Ndab\Settings::from', array($config));
 	}
 
 }
